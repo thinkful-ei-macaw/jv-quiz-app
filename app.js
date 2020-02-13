@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Example store structure
  */
