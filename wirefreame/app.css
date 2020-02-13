@@ -30,6 +30,20 @@ h1 {
 .quiz button {
     width: 15em;
     height: 25px;
-    margin: 0 auto 0 auto;
+    margin: 20px auto 0 auto;
     align-self: flex-end;
+}
+
+.question-multiple-choice {
+    margin: 0 auto 0 auto;
+
+}
+
+.answer {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+h2{
+    padding-left: 35px;
 }
