@@ -1,0 +1,35 @@
+h1 {
+    text-align: center;
+}
+
+.quiz-score {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.quiz-score p {
+    border: 1px solid black;
+    margin: 0 1em 0 1em;
+}
+
+.quiz {
+    border: 1px solid black;
+    margin: 1em auto 1em auto;
+    width: 90%;
+    height: 50vh;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.quiz p {
+    flex: 0 0 100%;
+    text-align: center;
+}
+
+.quiz button {
+    width: 15em;
+    height: 25px;
+    margin: 0 auto 0 auto;
+    align-self: flex-end;
+}
