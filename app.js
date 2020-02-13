@@ -100,38 +100,41 @@ function generateStartPageHTML() {
   `;
 }
 
-function generateQuestionHTML() {
+function generateQuestionHTML(question) {
   //TODO: Returns HTML for the current question
+  console.log(question);
+  console.log(`${question.question}`);
+
   return `
   <section class="quiz-score">
   <p>Score:${store.getCurrentScore()} / 5</p>
   <p>Current question: ${store.getCurrentQuestion()} / 5</p>
-</section>
-<section class="quiz">
-  <div class = "question-multiple-choice">
-      <h2>Question</h2>
-      <form>
-          <div class = "answer">                    
-              <input type="radio" name ="answer-choice" value="a">
-              <label for ="answer-choice">Answer Choice</label>
-          </div>
-          <div class = "answer">                    
-              <input type="radio" name ="answer-choice" value="b">
-              <label for ="answer-choice">Answer Choice</label>
-          </div>
-          <div class = "answer">                    
-              <input type="radio" name ="answer-choice" value="c">
-              <label for ="answer-choice">Answer Choice</label>
-          </div>       
-          <div class = "answer">                    
-              <input type="radio" name ="answer-choice" value="d">
-              <label for ="answer-choice">Answer Choice</label>
-          </div>   
-          <button class="submit" type="submit">Submit</button>                                        
-      </form>
-      
-  </div>
-</section>
+  </section>
+  <section class="quiz">
+    <div class = "question-multiple-choice">
+        <h2>${question.question}</h2>
+        <form>
+            <div class = "answer">                    
+                <input type="radio" name ="answer-choice" value="a">
+                <label for ="answer-choice">${question.answers.a}</label>
+            </div>
+            <div class = "answer">                    
+                <input type="radio" name ="answer-choice" value="b">
+                <label for ="answer-choice">${question.answers.b}</label>
+            </div>
+            <div class = "answer">                    
+                <input type="radio" name ="answer-choice" value="c">
+                <label for ="answer-choice">${question.answers.c}</label>
+            </div>       
+            <div class = "answer">                    
+                <input type="radio" name ="answer-choice" value="d">
+                <label for ="answer-choice">${question.answers.d}</label>
+            </div>   
+            <button class="submit" type="submit">Submit</button>                                        
+        </form>
+        
+    </div>
+  </section>
   `;
 }
 
@@ -160,7 +163,14 @@ function clickStart() {
   //TODO: Listen for when quiz "Start" button is pressed
   $('main').on('click', '#js-quiz-start', () => {
     console.log('quiz start clicked');
-    const questionPage = generateQuestionHTML();
+
+    let currentQuestion = store.getCurrentQuestion();
+    const question = store.questions[currentQuestion];
+
+    console.log(currentQuestion);
+    console.log(question);
+
+    const questionPage = generateQuestionHTML(question);
     render(questionPage);
   });
 }
@@ -170,11 +180,20 @@ function clickSubmit() {
   $('main').on('click', '.submit', e => {
     e.preventDefault();
     console.log('Submit question clicked');
+    findAnswer();
   });
+
+  
 }
 
 function findAnswer() {
   //TODO: figure out which answer was selected
+  const answerValue = $('input:checked').val();
+  console.log(answerValue);
+}
+
+function checkCorrect(){
+  //TODO: compare user choice with option in question obj
 }
 
 function clickRestart() {
