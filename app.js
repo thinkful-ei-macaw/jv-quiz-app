@@ -67,6 +67,10 @@ const store = {
   getCurrentQuestionNumber: function() {
     return this.questionNumber;
   },
+  getCurrentQuestion: function() {
+    let currentQuestionNum = this.questionNumber;
+    return this.questions[currentQuestionNum];
+  }
 
 };
 
@@ -94,16 +98,16 @@ function generateStartPageHTML() {
   return `
   <section class="quiz-score">
             <p>Score:${store.getCurrentScore()} / 5</p>
-            <p>Current question: ${store.questionNumber}  / 5</p>
+            <p>Current question: ${store.questionNumber === 0 ? 'Quiz not started' : store.questionNumber + '/ 5'}</p>
         </section>
         <section class="quiz">
             <p>Quiz description text</p>
-            <button id="js-quiz-start" class="start">Start Quiz</button>
+            <button class="start js-quiz-start">Start Quiz</button>
             </section>
   `;
 }
 
-function generateQuestionHTML(question) {
+function generateQuestionHTML(question, answerProvided = true) {
   //Returns HTML for the current question
 
   return `
@@ -115,22 +119,23 @@ function generateQuestionHTML(question) {
     <div class = "question-multiple-choice">
         <h2>${question.question}</h2>
         <form>
-            <div class = "answer">                    
-                <input type="radio" name ="answer-choice" value="a">
+            <div class="answer">                    
+                <input type="radio" name="answer-choice" value="a">
                 <label for ="answer-choice">${question.answers.a}</label>
             </div>
-            <div class = "answer">                    
-                <input type="radio" name ="answer-choice" value="b">
+            <div class="answer">                    
+                <input type="radio" name="answer-choice" value="b">
                 <label for ="answer-choice">${question.answers.b}</label>
             </div>
-            <div class = "answer">                    
-                <input type="radio" name ="answer-choice" value="c">
+            <div class="answer">                    
+                <input type="radio" name="answer-choice" value="c">
                 <label for ="answer-choice">${question.answers.c}</label>
             </div>       
-            <div class = "answer">                    
-                <input type="radio" name ="answer-choice" value="d">
+            <div class="answer">                    
+                <input type="radio" name="answer-choice" value="d">
                 <label for ="answer-choice">${question.answers.d}</label>
-            </div>   
+            </div>
+            ${answerProvided ? '' : '<p>Please provide an answer!</p>'}
             <button class="submit" type="submit">Submit</button>                                        
         </form>
         
@@ -152,7 +157,7 @@ function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
         <div>
             <h3>Correct answer is: ${correctAnswer}</h3>
             <p>${userAnswer ? 'This answer is correct' : 'This is incorrect'}</p>
-            <button class="submit js-next" type="submit">Next Question</button>                                        
+            <button class="submit js-quiz-next">Next Question</button>                                        
         </div>
     </div>
   </section>
@@ -161,6 +166,17 @@ function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
 
 function generateFinishPageHTML() {
   //TODO: Return HTML for quiz finished with scores and restart button
+  return `
+   <section class="quiz-score">
+    <p>Score:${store.getCurrentScore()} / 5</p>
+    <p>Current question: ${(store.getCurrentQuestionNumber() + 1)} / 5</p>
+    </section>
+        <section class="quiz">
+           <h2>Quiz Complete!</h2>
+           <p>Feedback on how many questions right and word</p>
+           <button>Retake Quiz</button>
+        </section>
+  `;
 }
 
 /********** RENDER FUNCTION(S) **********/
@@ -178,11 +194,10 @@ function render(component) {
 
 function clickStart() {
   //Listen for when quiz "Start" button is pressed
-  $('main').on('click', '#js-quiz-start', () => {
+  $('main').on('click', '.js-quiz-start', () => {
     console.log('quiz start clicked');
 
-    let currentQuestion = store.questionNumber;
-    const question = store.questions[currentQuestion];
+    const question = store.getCurrentQuestion();
     const questionPage = generateQuestionHTML(question);
 
     console.log(question.answers[question.correctAnswer]);
@@ -192,28 +207,41 @@ function clickStart() {
 
 function clickSubmit() {
   //Listen for when a question has been answered and submitted
-  $('main').on('click', '.submit', e => {
+  $('main').on('submit', 'form', e => {
     e.preventDefault();
     console.log('Submit question clicked');
-    showFeedback();
-    //getNextQuestion();
+
+    let answerSelected = $('input:checked').length;
+
+    if(answerSelected === 0) {
+      const question = store.getCurrentQuestion();
+      const questionPage = generateQuestionHTML(question, false);
+      render(questionPage);
+    } else {
+      showFeedback();
+    }
   });
   
 }
 
-function nextQuestion(){
-  $('main').on('click', '.js-next', e => {
+function clickNextQuestion(){
+  $('main').on('click', '.js-quiz-next', e => {
     e.preventDefault();
     console.log('next button submitted');
-    getNextQuestion();
+    console.log(store.getCurrentQuestionNumber());
+    
+    if(store.getCurrentQuestionNumber() === (store.questions.length -1)){
+      showFinishPage();
+    } else {
+      getNextQuestion();
+    }
   });
 }
 
 function showFeedback() {
 
   let userAnswer = findAnswer();
-  let currentQuestion = store.questionNumber;
-  const question = store.questions[currentQuestion];
+  const question = store.getCurrentQuestion();
   let correctAnswer = question.answers[question.correctAnswer];
 
   render(generateQuestionFeedbackHTML(userAnswer, correctAnswer));
@@ -222,10 +250,14 @@ function showFeedback() {
 function getNextQuestion() {
   //increment to switch questions
   incrementQuestionNumber();
-  let nextQuestion = store.questionNumber;
-  const question = store.questions[nextQuestion];
+  const question = store.getCurrentQuestion();
   const questionPage = generateQuestionHTML(question);
   render(questionPage);
+}
+
+function showFinishPage() {
+  const finishPage = generateFinishPageHTML();
+  render(finishPage);
 }
 
 function clickRestart() {
@@ -250,9 +282,8 @@ function findAnswer() {
 }
 
 function checkCorrect(answer){
-  //TODO: compare user choice with option in question obj
-  let currentQuestion = store.getCurrentQuestionNumber();
-  const question = store.questions[currentQuestion];
+  //Compare user choice with option in question obj
+  const question = store.getCurrentQuestion();
   
   let isCorrect = answer === question.correctAnswer;
   if(isCorrect) {
@@ -271,7 +302,7 @@ function main() {
     clickStart();
     clickSubmit();
     clickRestart();
-    nextQuestion();
+    clickNextQuestion();
   }
 
 }
