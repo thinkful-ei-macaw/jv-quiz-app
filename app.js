@@ -97,8 +97,8 @@ function generateStartPageHTML() {
   //Returns HTML for the start page
   return `
   <section class="quiz-score">
-            <p>Score:${store.getCurrentScore()} / 5</p>
-            <p>Current question: ${store.questionNumber === 0 ? 'Quiz not started' : store.questionNumber + '/ 5'}</p>
+            <p class="current-score">Score:<br>${store.getCurrentScore()} / 5</p>
+            <p class"current-question">Current question: ${store.questionNumber === 0 ? 'None' : store.questionNumber + '/ 5'}</p>
         </section>
         <section class="quiz-container">
             <h2>Welcome to cat facts!</h2> 
@@ -117,9 +117,10 @@ function generateQuestionHTML(question, answerProvided = true) {
   <p>Current question: ${(store.getCurrentQuestionNumber() + 1)} / 5</p>
   </section>
   <section class="quiz-container">
-    <div class = "question-multiple-choice">
+    <div class="question-multiple-choice">
         <h2>${question.question}</h2>
         <form>
+        <div class="form-container">
             <div class="answer">                    
                 <input type="radio" name="answer-choice" value="a">
                 <label for ="answer-choice">${question.answers.a}</label>
@@ -136,10 +137,10 @@ function generateQuestionHTML(question, answerProvided = true) {
                 <input type="radio" name="answer-choice" value="d">
                 <label for ="answer-choice">${question.answers.d}</label>
             </div>
-            ${answerProvided ? '' : '<p>Please provide an answer!</p>'}
-            <button class="submit" type="submit">Submit</button>                                        
+            ${answerProvided ? '' : '<p class="input-error">Please provide an answer!</p>'}
+            <button class="submit" type="submit">Submit</button>
+            </div>                                    
         </form>
-        
     </div>
   </section>
   `;
@@ -153,12 +154,12 @@ function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
   <p>Current question: ${(store.getCurrentQuestionNumber() + 1)} / 5</p>
   </section>
   <section class="quiz-container">
-    <div class = "question-multiple-choice">
+    <div class="question-multiple-choice">
         <h2>Question</h2>
         <div>
-            <h3>Correct answer is: ${correctAnswer}</h3>
-            <p>${userAnswer ? 'This answer is correct' : 'This is incorrect'}</p>
-            <button class="submit js-quiz-next">Next Question</button>                                        
+            <h3>${userAnswer ? 'Correct!' : 'Wrong!'}</h3>
+            <p>The correct answer is:<br> ${correctAnswer}</p>
+            <button class="quiz-next js-quiz-next">Next Question</button>                                        
         </div>
     </div>
   </section>
