@@ -152,7 +152,7 @@ function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
         <div>
             <h3>Correct answer is: ${correctAnswer}</h3>
             <p>${userAnswer ? 'This answer is correct' : 'This is incorrect'}</p>
-            <button class="submit" type="submit">Next Question</button>                                        
+            <button class="submit js-next" type="submit">Next Question</button>                                        
         </div>
     </div>
   </section>
@@ -201,6 +201,14 @@ function clickSubmit() {
   
 }
 
+function nextQuestion(){
+  $('main').on('click', '.js-next', e => {
+    e.preventDefault();
+    console.log('next button submitted');
+    getNextQuestion();
+  });
+}
+
 function showFeedback() {
 
   let userAnswer = findAnswer();
@@ -230,6 +238,10 @@ function incrementQuestionNumber() {
   store.questionNumber++;
 }
 
+function incrementScore() {
+  store.score++;
+}
+
 function findAnswer() {
   //Figure out which answer was selected
   const answerValue = $('input:checked').val();
@@ -241,9 +253,12 @@ function checkCorrect(answer){
   //TODO: compare user choice with option in question obj
   let currentQuestion = store.getCurrentQuestionNumber();
   const question = store.questions[currentQuestion];
-  console.log(question);
-  console.log(answer === question.correctAnswer);
-  return answer === question.correctAnswer;
+  
+  let isCorrect = answer === question.correctAnswer;
+  if(isCorrect) {
+    incrementScore();
+  }
+  return isCorrect;
 }
 
 /******* Main App Start *******/
@@ -256,6 +271,7 @@ function main() {
     clickStart();
     clickSubmit();
     clickRestart();
+    nextQuestion();
   }
 
 }
