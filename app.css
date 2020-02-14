@@ -11,17 +11,39 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100vh;
+}
+
+body:after {
+  content: "";
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  background: url(img/charlie-deets-unsplash.jpg) center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 h1 {
   text-align: center;
+  font-size: 2.5em
 }
 
 h2 {
   padding-left: 35px;
   font-size: 2em;
+  text-align: center;
 }
 
 h3 {
   font-size: 1.5em;
+  text-align: center;
 }
 
 p {
@@ -43,17 +65,16 @@ p {
 }
 
 .quiz-container {
-  border: 1px dotted black;
+  border: 1px solid black;
   margin: 1em auto;
   width: 88%;
-  height: 50vh;
+  height: fit-content;
   display: flex;
   flex-flow: row wrap;
 }
 
 .quiz-container h2 {
   flex: 0 0 98%;
-  text-align: center;
   padding: 0px;
   margin: 1em 1%;
 }
@@ -73,10 +94,16 @@ p {
   font-family: sans-serif;
   padding: 0;
   border: 1px solid black;
+  border-radius: 5px;
   background-color: gray;
   color: white;
   text-align: center;
   vertical-align: middle;
+  transition: background-color .5s ease-in;
+}
+
+.quiz-container button:hover {
+  background-color: green;
 }
 
 .question-multiple-choice {
@@ -104,3 +131,28 @@ p.input-error {
   color: red;
 }
 
+@media screen and (min-width: 1000px) {
+  h1 {
+    text-align: center;
+    font-size: 3em;
+  }
+  
+  h2 {
+    padding-left: 35px;
+    font-size: 2.5em;
+  }
+  
+  h3 {
+    font-size: 2em;
+  }
+  
+  p {
+    font-size: 2em;
+  }
+
+  .quiz-container button {
+    height: 3em;
+    width: 20em;
+  }
+
+}
