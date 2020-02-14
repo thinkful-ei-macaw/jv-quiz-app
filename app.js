@@ -105,8 +105,6 @@ function generateStartPageHTML() {
 
 function generateQuestionHTML(question) {
   //Returns HTML for the current question
-  console.log(question);
-  console.log(`${question.question}`);
 
   return `
   <section class="quiz-score">
@@ -141,23 +139,23 @@ function generateQuestionHTML(question) {
   `;
 }
 
-function generateQuestionFeedbackHTML() {
+function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
   //TODO: Return HTML for feedback based on question (correct or incorrect)
   return `
   <section class="quiz-score">
-  <p>Score: 3 / 5</p>
-  <p>Current question: 4 / 5</p>
-</section>
-<section class="quiz">
-  <div class = "question-multiple-choice">
-      <h2>Question</h2>
-      <div>
-          <h3>Correct or Incorrect</h3>
-          <p>Show answer</p>
-          <button class="submit" type="submit">Next Question</button>                                        
-      </div>
-  </div>
-</section>
+  <p>Score:${store.getCurrentScore()} / 5</p>
+  <p>Current question: ${(store.getCurrentQuestionNumber() + 1)} / 5</p>
+  </section>
+  <section class="quiz">
+    <div class = "question-multiple-choice">
+        <h2>Question</h2>
+        <div>
+            <h3>Correct answer is: ${correctAnswer}</h3>
+            <p>${userAnswer ? 'This answer is correct' : 'This is incorrect'}</p>
+            <button class="submit" type="submit">Next Question</button>                                        
+        </div>
+    </div>
+  </section>
   `;
 }
 
@@ -185,11 +183,9 @@ function clickStart() {
 
     let currentQuestion = store.questionNumber;
     const question = store.questions[currentQuestion];
-
-    console.log(currentQuestion);
-    console.log(question);
-
     const questionPage = generateQuestionHTML(question);
+
+    console.log(question.answers[question.correctAnswer]);
     render(questionPage);
   });
 }
@@ -199,7 +195,6 @@ function clickSubmit() {
   $('main').on('click', '.submit', e => {
     e.preventDefault();
     console.log('Submit question clicked');
-    findAnswer();
     showFeedback();
     //getNextQuestion();
   });
@@ -207,7 +202,13 @@ function clickSubmit() {
 }
 
 function showFeedback() {
-  render(generateQuestionFeedbackHTML());
+
+  let userAnswer = findAnswer();
+  let currentQuestion = store.questionNumber;
+  const question = store.questions[currentQuestion];
+  let correctAnswer = question.answers[question.correctAnswer];
+
+  render(generateQuestionFeedbackHTML(userAnswer, correctAnswer));
 }
 
 function getNextQuestion() {
@@ -216,7 +217,6 @@ function getNextQuestion() {
   let nextQuestion = store.questionNumber;
   const question = store.questions[nextQuestion];
   const questionPage = generateQuestionHTML(question);
-  console.log(store.getCurrentQuestionNumber());
   render(questionPage);
 }
 
@@ -234,7 +234,7 @@ function findAnswer() {
   //Figure out which answer was selected
   const answerValue = $('input:checked').val();
   console.log(answerValue);
-  checkCorrect(answerValue);
+  return checkCorrect(answerValue);
 }
 
 function checkCorrect(answer){
@@ -243,6 +243,7 @@ function checkCorrect(answer){
   const question = store.questions[currentQuestion];
   console.log(question);
   console.log(answer === question.correctAnswer);
+  return answer === question.correctAnswer;
 }
 
 /******* Main App Start *******/
