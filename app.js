@@ -158,7 +158,7 @@ function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
         <h2>Question</h2>
         <div>
             ${userAnswer ? '<h3 class="answer-correct">Correct!</h3>':
-            '<h3 class="answer-wrong">Wrong!</h3>'}
+    '<h3 class="answer-wrong">Wrong!</h3>'}
             <p>The correct answer is:<br> ${correctAnswer}</p>
             <button class="quiz-next js-quiz-next">Next Question</button>                                        
         </div>
@@ -176,7 +176,7 @@ function generateFinishPageHTML() {
     </section>
         <section class="quiz-container">
            <h2>Quiz Complete!</h2>
-           <p>You got ${store.getCurrentScore()} / 5.</p>
+           <p>You scored ${store.getCurrentScore()} / 5!</p>
            <button class="js-retake-quiz">Retake Quiz</button>
         </section>
   `;
