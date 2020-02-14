@@ -1,9 +1,8 @@
 'use strict';
 /**
- * Example store structure
+ * Store structure
  */
 const store = {
-  // 5 or more questions are required
   questions: [
     {
       question: 'How much of the day do cats spend grooming themselves?',
@@ -92,7 +91,7 @@ const store = {
 // These functions return HTML templates 
 
 function generateStartPageHTML() {
-  //TODO: Returns HTML for the start page
+  //Returns HTML for the start page
   return `
   <section class="quiz-score">
             <p>Score:${store.getCurrentScore()} / 5</p>
@@ -106,7 +105,7 @@ function generateStartPageHTML() {
 }
 
 function generateQuestionHTML(question) {
-  //TODO: Returns HTML for the current question
+  //Returns HTML for the current question
   console.log(question);
   console.log(`${question.question}`);
 
@@ -156,7 +155,7 @@ function generateFinishPageHTML() {
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
 
 function render(component) {
-  //TODO: Render main content and trigger score update
+  //Render main content
   $('main').html(component);
 }
 
@@ -165,7 +164,7 @@ function render(component) {
 // These functions handle events (submit, click, etc)
 
 function clickStart() {
-  //TODO: Listen for when quiz "Start" button is pressed
+  //Listen for when quiz "Start" button is pressed
   $('main').on('click', '#js-quiz-start', () => {
     console.log('quiz start clicked');
 
@@ -181,7 +180,7 @@ function clickStart() {
 }
 
 function clickSubmit() {
-  //TODO: Listen for when a question has been answered and submitted
+  //Listen for when a question has been answered and submitted
   $('main').on('click', '.submit', e => {
     e.preventDefault();
     console.log('Submit question clicked');
@@ -199,7 +198,7 @@ function clickSubmit() {
 }
 
 function findAnswer() {
-  //TODO: figure out which answer was selected
+  //Figure out which answer was selected
   const answerValue = $('input:checked').val();
   console.log(answerValue);
 }
