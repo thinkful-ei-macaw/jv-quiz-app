@@ -157,7 +157,8 @@ function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
     <div class="question-multiple-choice">
         <h2>Question</h2>
         <div>
-            <h3>${userAnswer ? 'Correct!' : 'Wrong!'}</h3>
+            ${userAnswer ? '<h3 class="answer-correct">Correct!</h3>':
+            '<h3 class="answer-wrong">Wrong!</h3>'}
             <p>The correct answer is:<br> ${correctAnswer}</p>
             <button class="quiz-next js-quiz-next">Next Question</button>                                        
         </div>
