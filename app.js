@@ -101,7 +101,8 @@ function generateStartPageHTML() {
             <p>Current question: ${store.questionNumber === 0 ? 'Quiz not started' : store.questionNumber + '/ 5'}</p>
         </section>
         <section class="quiz-container">
-            <p>Welcome to cat facts! You're going to learn to much about our furry friends</p>
+            <h2>Welcome to cat facts!</h2> 
+            <p>You're going to learn to much about our furry friends</p>
             <button class="start js-quiz-start">Start Quiz</button>
             </section>
   `;
