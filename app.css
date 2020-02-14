@@ -172,6 +172,16 @@ input {
     font-size: 2em;
   }
 
+  .quiz-container {
+    width: 50%;
+  }
+
+  .quiz-score {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .quiz-container button {
     font-size: 1.25em;
   }
