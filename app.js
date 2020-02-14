@@ -143,6 +143,22 @@ function generateQuestionHTML(question) {
 
 function generateQuestionFeedbackHTML() {
   //TODO: Return HTML for feedback based on question (correct or incorrect)
+  return `
+  <section class="quiz-score">
+  <p>Score: 3 / 5</p>
+  <p>Current question: 4 / 5</p>
+</section>
+<section class="quiz">
+  <div class = "question-multiple-choice">
+      <h2>Question</h2>
+      <div>
+          <h3>Correct or Incorrect</h3>
+          <p>Show answer</p>
+          <button class="submit" type="submit">Next Question</button>                                        
+      </div>
+  </div>
+</section>
+  `;
 }
 
 function generateFinishPageHTML() {
@@ -184,10 +200,14 @@ function clickSubmit() {
     e.preventDefault();
     console.log('Submit question clicked');
     findAnswer();
-    
-    getNextQuestion();
+    showFeedback();
+    //getNextQuestion();
   });
   
+}
+
+function showFeedback() {
+  render(generateQuestionFeedbackHTML());
 }
 
 function getNextQuestion() {
