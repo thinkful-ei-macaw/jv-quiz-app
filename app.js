@@ -100,8 +100,8 @@ function generateStartPageHTML() {
             <p>Score:${store.getCurrentScore()} / 5</p>
             <p>Current question: ${store.questionNumber === 0 ? 'Quiz not started' : store.questionNumber + '/ 5'}</p>
         </section>
-        <section class="quiz">
-            <p>Quiz description text</p>
+        <section class="quiz-container">
+            <p>Welcome to cat facts! You're going to learn to much about our furry friends</p>
             <button class="start js-quiz-start">Start Quiz</button>
             </section>
   `;
@@ -115,7 +115,7 @@ function generateQuestionHTML(question, answerProvided = true) {
   <p>Score:${store.getCurrentScore()} / 5</p>
   <p>Current question: ${(store.getCurrentQuestionNumber() + 1)} / 5</p>
   </section>
-  <section class="quiz">
+  <section class="quiz-container">
     <div class = "question-multiple-choice">
         <h2>${question.question}</h2>
         <form>
@@ -151,7 +151,7 @@ function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
   <p>Score:${store.getCurrentScore()} / 5</p>
   <p>Current question: ${(store.getCurrentQuestionNumber() + 1)} / 5</p>
   </section>
-  <section class="quiz">
+  <section class="quiz-container">
     <div class = "question-multiple-choice">
         <h2>Question</h2>
         <div>
@@ -171,10 +171,10 @@ function generateFinishPageHTML() {
     <p>Score:${store.getCurrentScore()} / 5</p>
     <p>Current question: ${(store.getCurrentQuestionNumber() + 1)} / 5</p>
     </section>
-        <section class="quiz">
+        <section class="quiz-container">
            <h2>Quiz Complete!</h2>
-           <p>Feedback on how many questions right and word</p>
-           <button>Retake Quiz</button>
+           <p>You got ${store.getCurrentScore()} / 5.</p>
+           <button class="js-retake-quiz">Retake Quiz</button>
         </section>
   `;
 }
@@ -262,6 +262,12 @@ function showFinishPage() {
 
 function clickRestart() {
   //TODO: Listen for when user requests Quiz restart
+  $('main').on('click', '.js-retake-quiz', e => {
+    e.preventDefault();
+    resetScore();
+    resetQuestionNumber();
+    render(generateStartPageHTML());
+  });
 }
 
 //Helper functions
@@ -272,6 +278,13 @@ function incrementQuestionNumber() {
 
 function incrementScore() {
   store.score++;
+}
+
+function resetScore(){
+  store.score = 0;
+}
+function resetQuestionNumber(){
+  store.questionNumber = 0;
 }
 
 function findAnswer() {

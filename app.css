@@ -22,8 +22,8 @@ h1 {
   margin: 0 1em 0 1em;
 }
 
-.quiz {
-  border: 1px solid black;
+.quiz-container {
+  border: 1px dotted black;
   margin: 1em auto 1em auto;
   width: 90%;
   height: 50vh;
@@ -31,16 +31,17 @@ h1 {
   flex-flow: row wrap;
 }
 
-.quiz p {
+.quiz-container p {
   flex: 0 0 100%;
   text-align: center;
 }
 
-.quiz button {
+.quiz-container button {
   width: 15em;
   height: 25px;
   margin: 20px auto 0 auto;
   align-self: flex-end;
+  font-family: sans-serif;
 }
 
 .question-multiple-choice {
