@@ -111,7 +111,7 @@ function generateQuestionHTML(question, answerProvided = true) {
 
   return `
   <section class="quiz-score">
-  <p>Score:${store.getCurrentScore()} / 5</p>
+  <p>Score:<br>${store.getCurrentScore()} / 5</p>
   <p>Current question: ${(store.getCurrentQuestionNumber() + 1)} / 5</p>
   </section>
   <section class="quiz-container">
@@ -148,7 +148,7 @@ function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
   //Return HTML for feedback based on question (correct or incorrect)
   return `
   <section class="quiz-score">
-  <p>Score:${store.getCurrentScore()} / 5</p>
+  <p>Score:<br>${store.getCurrentScore()} / 5</p>
   <p>Current question: ${(store.getCurrentQuestionNumber() + 1)} / 5</p>
   </section>
   <section class="quiz-container">
@@ -169,7 +169,7 @@ function generateFinishPageHTML() {
   //Return HTML for quiz finished with scores and restart button
   return `
    <section class="quiz-score">
-    <p>Score:${store.getCurrentScore()} / 5</p>
+    <p>Score:<br>${store.getCurrentScore()} / 5</p>
     <p>Current question: ${(store.getCurrentQuestionNumber() + 1)} / 5</p>
     </section>
         <section class="quiz-container">
