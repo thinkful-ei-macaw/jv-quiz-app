@@ -59,12 +59,17 @@ const store = {
   quizStarted: false,
   questionNumber: 0,
   score: 0,
+  // check correct answer
+  // showAnswerPage: false,
+  answers: ['b', 'a', 'c'],
   getCurrentScore: function() {
     return this.score;
   },
+  //return displayed question number
   getCurrentQuestion: function() {
-    return this.questionNumber;
+    return this.questionNumber + 1;
   },
+
 };
 
 /**
@@ -91,7 +96,7 @@ function generateStartPageHTML() {
   return `
   <section class="quiz-score">
             <p>Score:${store.getCurrentScore()} / 5</p>
-            <p>Current question: 0 / 5</p>
+            <p>Current question: ${store.questionNumber}  / 5</p>
         </section>
         <section class="quiz">
             <p>Quiz description text</p>
@@ -164,7 +169,7 @@ function clickStart() {
   $('main').on('click', '#js-quiz-start', () => {
     console.log('quiz start clicked');
 
-    let currentQuestion = store.getCurrentQuestion();
+    let currentQuestion = store.questionNumber;
     const question = store.questions[currentQuestion];
 
     console.log(currentQuestion);
@@ -181,6 +186,13 @@ function clickSubmit() {
     e.preventDefault();
     console.log('Submit question clicked');
     findAnswer();
+    
+//increment to switch questions
+    store.questionNumber += 1;
+    let currentQuestion = store.questionNumber;
+    const question = store.questions[currentQuestion];
+    const questionPage = generateQuestionHTML(question);
+    render(questionPage);
   });
 
   
@@ -194,6 +206,15 @@ function findAnswer() {
 
 function checkCorrect(){
   //TODO: compare user choice with option in question obj
+  //need to check 
+  // console.log("check if correct");
+  // const answerValue = $('input:checked').val();
+
+  // for(let i = 0; i < store.answers.length; i++){ 
+  //   if(answerValue === store.answer[i]);
+  //   store.score += 1; 
+  // }
+
 }
 
 function clickRestart() {
