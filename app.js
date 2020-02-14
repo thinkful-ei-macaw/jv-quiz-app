@@ -58,8 +58,6 @@ const store = {
   quizStarted: false,
   questionNumber: 0,
   score: 0,
-  // check correct answer
-  // showAnswerPage: false,
   getCurrentScore: function() {
     return this.score;
   },
@@ -147,7 +145,7 @@ function generateQuestionHTML(question, answerProvided = true) {
 }
 
 function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
-  //TODO: Return HTML for feedback based on question (correct or incorrect)
+  //Return HTML for feedback based on question (correct or incorrect)
   return `
   <section class="quiz-score">
   <p>Score:${store.getCurrentScore()} / 5</p>
@@ -168,7 +166,7 @@ function generateQuestionFeedbackHTML(userAnswer, correctAnswer) {
 }
 
 function generateFinishPageHTML() {
-  //TODO: Return HTML for quiz finished with scores and restart button
+  //Return HTML for quiz finished with scores and restart button
   return `
    <section class="quiz-score">
     <p>Score:${store.getCurrentScore()} / 5</p>
@@ -198,12 +196,8 @@ function render(component) {
 function clickStart() {
   //Listen for when quiz "Start" button is pressed
   $('main').on('click', '.js-quiz-start', () => {
-    console.log('quiz start clicked');
-
     const question = store.getCurrentQuestion();
     const questionPage = generateQuestionHTML(question);
-
-    console.log(question.answers[question.correctAnswer]);
     render(questionPage);
   });
 }
@@ -212,10 +206,7 @@ function clickSubmit() {
   //Listen for when a question has been answered and submitted
   $('main').on('submit', 'form', e => {
     e.preventDefault();
-    console.log('Submit question clicked');
-
     let answerSelected = $('input:checked').length;
-
     if(answerSelected === 0) {
       const question = store.getCurrentQuestion();
       const questionPage = generateQuestionHTML(question, false);
@@ -230,9 +221,6 @@ function clickSubmit() {
 function clickNextQuestion(){
   $('main').on('click', '.js-quiz-next', e => {
     e.preventDefault();
-    console.log('next button submitted');
-    console.log(store.getCurrentQuestionNumber());
-    
     if(store.getCurrentQuestionNumber() === (store.questions.length -1)){
       showFinishPage();
     } else {
@@ -264,7 +252,6 @@ function showFinishPage() {
 }
 
 function clickRestart() {
-  //TODO: Listen for when user requests Quiz restart
   $('main').on('click', '.js-retake-quiz', e => {
     e.preventDefault();
     resetScore();
@@ -272,8 +259,6 @@ function clickRestart() {
     render(generateStartPageHTML());
   });
 }
-
-//Helper functions
 
 function incrementQuestionNumber() {
   store.questionNumber++;
@@ -293,7 +278,6 @@ function resetQuestionNumber(){
 function findAnswer() {
   //Figure out which answer was selected
   const answerValue = $('input:checked').val();
-  console.log(answerValue);
   return checkCorrect(answerValue);
 }
 
