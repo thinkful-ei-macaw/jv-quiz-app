@@ -100,7 +100,7 @@ function generateStartPageHTML() {
         </section>
         <section class="quiz-container">
             <h2>Welcome to cat facts!</h2> 
-            <p>You're going to learn to much about our furry friends</p>
+            <p>You're going to learn so much about our furry friends!</p>
             <button class="start js-quiz-start">Start Quiz</button>
             </section>
   `;
